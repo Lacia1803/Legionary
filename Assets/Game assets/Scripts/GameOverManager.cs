@@ -47,5 +47,4 @@ public class GameOverManager : MonoBehaviour
     {
 
     }
-    // NOTE: commit helper - GameOverManager checked
 }
