@@ -95,7 +95,43 @@ Nếu có bất kỳ sự gian lận nào, tôi xin chịu hoàn toàn trách nh
 
 # CHƯƠNG 2: PHÂN TÍCH VÀ THIẾT KẾ GAMEPLAY
 
-... (full report content continues — already in REPORT_FULL.md)
+<a name="chuong-6"></a>
+# CHƯƠNG 6: KIỂM THỬ VÀ KẾT QUẢ
+
+## 6.1 Kịch bản kiểm thử
+
+- Test di chuyển & va chạm: kiểm tra không bị xuyên tile, nhảy qua chướng ngại.
+- Test checkpoint: chết tại sau checkpoint -> respawn đúng.
+- Test thu thập coin: coin biến mất và điểm tăng.
+- Test chuyển cảnh: qua cổng scene đúng, giữ được Score khi cần.
+
+## 6.2 Hình ảnh minh họa Gameplay
+
+**Màn hình Menu (Main Menu)**
+
+![Main Menu](2dmain.png)
+
+**Gameplay — Level 1**
+
+![Gameplay Màn 1](2d2.png)
+
+**Gameplay — Level 2**
+
+![Gameplay Màn 2](2d3.png)
+
+**Khung cảnh thiết kế Tilemap**
+
+![Gameplay Đặc Biệt](2d.png)
+
+**Screenshot bổ sung A**
+
+![Screenshot A](pic5.png)
+
+**Screenshot bổ sung B**
+
+![Screenshot B](pic6.png)
+
+---
 
 ---
 
