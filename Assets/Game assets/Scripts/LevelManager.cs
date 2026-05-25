@@ -50,8 +50,6 @@ public class LevelManager : MonoBehaviour
     {
         PlayerControl = FindFirstObjectByType<PlayerControl>();
 
-        Debug.Log("LevelManager initialized (commit helper)");
-
         if (ScoreText != null)
         {
             ScoreText.text = "Score: " + Coins;
