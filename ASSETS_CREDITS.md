@@ -37,3 +37,18 @@ _Lưu ý:_ Một số tệp (ví dụ `Level 1.unity`, một vài ảnh trong `C
 ### Phát hiện license tự động
 
 - `Assets/UI Assets/Fonts/Jupiter/LICENSE.txt` nội dung: "The Jupiter font is created by Isurus Labs and is in the public domain." ⇒ License: Public Domain (Isurus Labs). Ghi credit: "Isurus Labs - Public Domain".
+
+## Files flagged `licenseType: Store` (cần kiểm tra thủ công)
+
+Các tập tin `.meta` sau đây chứa `licenseType: Store`, nghĩa là tài nguyên có thể được nhập từ **Unity Asset Store** hoặc gói bản quyền và cần xác thực thủ công (mở Unity Editor và kiểm tra package/asset import hoặc tra trang Asset Store):
+
+- `Assets/All scenes/Level 1.unity`
+- Nhiều file trong `Assets/Game assets/` (Animation, Prefab, Sprite, Material, Music)
+- Nhiều file trong `Assets/Custom Tileset/Materials/GradientSky` (shaders, scripts)
+- Một số file trong `Assets/Character file/` (Knight, Body Parts, AI)
+
+Tổng cộng hệ thống phát hiện ~60 mục có `licenseType: Store` (xem log grep trong repo). Đề nghị kiểm tra từng package trong Unity Editor: mở Project → chọn asset → Inspector → xem thông tin nguồn hoặc vào Window → Package Manager / My Assets để tìm package gốc và ghi lại tác giả + license.
+
+---
+
+Nếu bạn muốn, tôi sẽ tiếp tục: (A) tự động tạo danh sách đầy đủ các đường dẫn meta có `licenseType: Store` và lưu vào `ASSETS_CREDITS_PENDING.md`, hoặc (B) tôi có thể mở Unity (nếu có trên máy bạn) để xác minh trực tiếp. Chọn A hoặc B để tôi tiếp tục.
