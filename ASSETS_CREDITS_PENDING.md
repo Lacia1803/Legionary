@@ -18,6 +18,7 @@ Detected categories / example paths (manual check recommended):
 Count: ~60 meta entries were found with `licenseType: Store` during an automated scan.
 
 Recommended workflow to verify each item:
+
 1. Open Unity Editor with this project.
 2. In Project window, select an asset listed above.
 3. In Inspector, look for import/package information or a link to the Asset Store package.
