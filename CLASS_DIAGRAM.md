@@ -1,4 +1,4 @@
-# Sơ đồ lớp & Các đoạn mã quan trọng
+Chuyển sơ đồ Mermaid thành ảnh PNG để dễ chèn vào báo cáo (CLASS_DIAGRAM.md → PNG).# Sơ đồ lớp & Các đoạn mã quan trọng
 
 Dưới đây là sơ đồ lớp đơn giản (Mermaid) thể hiện các lớp chính trong gameplay và mối quan hệ giữa chúng, kèm theo 3–5 đoạn mã quan trọng với phần giải thích ngắn.
 
