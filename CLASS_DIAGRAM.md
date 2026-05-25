@@ -1,6 +1,6 @@
-# Class Diagram & Key Code Excerpts
+# Sơ đồ lớp & Các đoạn mã quan trọng
 
-Below is a simple class diagram (Mermaid) showing the main gameplay classes and their relations, followed by 3–5 important code snippets with short explanations.
+Dưới đây là sơ đồ lớp đơn giản (Mermaid) thể hiện các lớp chính trong gameplay và mối quan hệ giữa chúng, kèm theo 3–5 đoạn mã quan trọng với phần giải thích ngắn.
 
 ```mermaid
 classDiagram
@@ -28,9 +28,9 @@ classDiagram
     }
 ```
 
-## Key code excerpts and explanations
+## Các đoạn mã tiêu biểu và giải thích
 
-1) `LevelManager` (Singleton pattern)
+1.  `LevelManager` (mẫu Singleton)
 
 ```csharp
 public class LevelManager : MonoBehaviour
@@ -40,13 +40,13 @@ public class LevelManager : MonoBehaviour
         if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
         else { Destroy(gameObject); }
     }
-    // ... other methods (Respawn, AddCoins)
+    // ... các phương thức khác (Respawn, AddCoins)
 }
 ```
 
-Explanation: `LevelManager` is made a singleton so its state (score, checkpoint references) is globally accessible via `LevelManager.instance` without expensive lookups. `DontDestroyOnLoad` keeps it across scenes.
+Giải thích: `LevelManager` được làm thành singleton để trạng thái toàn cục (điểm, vị trí checkpoint...) có thể truy cập dễ dàng thông qua `LevelManager.instance` mà không phải tốn chi phí tìm kiếm. `DontDestroyOnLoad` giữ đối tượng không bị hủy khi chuyển scene.
 
-2) `PlayerControl.PlayerWalk()` (movement + facing)
+2.  `PlayerControl.PlayerWalk()` (di chuyển và xoay hướng)
 
 ```csharp
 public void PlayerWalk()
@@ -58,9 +58,9 @@ public void PlayerWalk()
 }
 ```
 
-Explanation: Uses `Rigidbody2D.velocity` for responsive movement and flips `localScale.x` to mirror sprite for facing direction.
+Giải thích: Sử dụng `Rigidbody2D.velocity` để di chuyển nhạy, đồng thời đảo `localScale.x` để lật sprite theo hướng đi.
 
-3) `PlayerHealth.LoseHealth(float)` (damage and death handling)
+3.  `PlayerHealth.LoseHealth(float)` (xử lý sát thương & chết)
 
 ```csharp
 public async Task LoseHealth(float Damage)
@@ -79,9 +79,9 @@ public async Task LoseHealth(float Damage)
 }
 ```
 
-Explanation: This handles damage, plays animations, and when health reaches zero it triggers death flow and respawn after a delay (or loads a Game Over scene depending on level).
+Giải thích: Đoạn mã xử lý mất máu, phát animation hurt hoặc die. Khi về 0 máu sẽ thực hiện luồng chết và hồi sinh sau độ trễ, hoặc load scene Game Over tùy level.
 
-4) `CollectableObjects.OnTriggerEnter2D` (score collection)
+4.  `CollectableObjects.OnTriggerEnter2D` (thu thập điểm)
 
 ```csharp
 void OnTriggerEnter2D(Collider2D other)
@@ -93,8 +93,8 @@ void OnTriggerEnter2D(Collider2D other)
 }
 ```
 
-Explanation: Simple pickup behaviour — when colliding with player, the object adds coins via `LevelManager` and destroys itself.
+Giải thích: Khi va chạm với Player, vật phẩm gọi `AddCoins` của `LevelManager` rồi tự hủy.
 
 ---
 
-If you want, I can convert this into an image class diagram (PNG) or expand explanations into 3–5 longer code excerpts for the report.
+Nếu bạn muốn, mình có thể chuyển sơ đồ mermaid thành ảnh PNG để chèn vào báo cáo hoặc mở rộng phần giải thích thành các đoạn phân tích dài hơn cho báo cáo.

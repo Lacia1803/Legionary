@@ -1,17 +1,17 @@
-# Asset Credits & Licenses
+# Ghi nhận Tài nguyên (Assets) & Bản quyền
 
-This file lists notable external assets (images, audio, fonts) included in the project. For any asset taken from outside, you must keep and verify the original license and give credit in the final report.
+Tệp này liệt kê các tài nguyên quan trọng (hình ảnh, âm thanh, font) được đưa vào dự án. Với mỗi tài nguyên lấy từ bên ngoài, cần tra cứu và giữ lại thông tin bản quyền (license) gốc và ghi nhận tác giả trong báo cáo nộp cuối kỳ.
 
-Below are assets discovered in the `Assets/` folder. Where the original license is unknown, please check the source package used when the assets were imported.
+Dưới đây là các tài nguyên đã tìm thấy trong thư mục `Assets/`. Nếu nguồn gốc hoặc license chưa rõ, cần mở gói import gốc trong Unity hoặc kiểm tra trang tải xuống ban đầu.
 
-## Images / Sprites
+## Hình ảnh / Sprite
 
-- `Assets/Custom Tileset/Tilesets/Level_1/Level_1_256x256.png` — Tileset art (source: unknown)
-- `Assets/Custom Tileset/Props/Weapons/Weapons_01.png` — Weapon sprites (source: unknown)
-- `Assets/Enemy Knight/ColorSwap/swap_texture.png` — Enemy texture (source: Enemy Knight demo asset)
-- Many UI sprites under `Assets/UI Assets/Textures and Sprites/` (buttons, panels, backgrounds) — likely from UI packs.
+- `Assets/Custom Tileset/Tilesets/Level_1/Level_1_256x256.png` — Tileset cho Level 1 (nguồn: chưa rõ)
+- `Assets/Custom Tileset/Props/Weapons/Weapons_01.png` — Sprite vũ khí (nguồn: chưa rõ)
+- `Assets/Enemy Knight/ColorSwap/swap_texture.png` — Texture cho enemy (nguồn: bộ asset Enemy Knight demo)
+- Nhiều sprite UI nằm trong `Assets/UI Assets/Textures and Sprites/` (nút, panel, background) — có thể lấy từ các UI pack.
 
-## Audio
+## Âm thanh
 
 - `Assets/Game assets/Audio Files/ASF.mp3`
 - `Assets/Game assets/Audio Files/CaveSF.mp3`
@@ -20,22 +20,22 @@ Below are assets discovered in the `Assets/` folder. Where the original license 
 - `Assets/Game assets/Audio Files/Level 2 ambience.mp3`
 - `Assets/Game assets/Audio Files/water ambience.mp3`
 - `Assets/Game assets/Audio Files/WinSF.mp3`
-- `Assets/Game assets/Music/Tropical Moments.wav` and loop version — source/license unknown
+- `Assets/Game assets/Music/Tropical Moments.wav` và phiên bản loop — nguồn/license: chưa rõ
 
-## Fonts
+## Phông chữ (Fonts)
 
-- `Assets/UI Assets/Fonts/Jupiter/Jupiter.ttf` — font file (check included license)
-- `Assets/UI Assets/Fonts/Jupiter/Rajdhani-Light.ttf` — Rajdhani family (check license)
-- `Assets/UI Assets/Fonts/Jupiter/Rajdhani-Bold.ttf` — Rajdhani family (check license)
+- `Assets/UI Assets/Fonts/Jupiter/Jupiter.ttf` — file font (kiểm tra license kèm theo)
+- `Assets/UI Assets/Fonts/Jupiter/Rajdhani-Light.ttf` — họ phông Rajdhani (kiểm tra license)
+- `Assets/UI Assets/Fonts/Jupiter/Rajdhani-Bold.ttf` — họ phông Rajdhani (kiểm tra license)
 
 ## Video
 
-- `Assets/Game assets/Videos/IntroVideo.mp4` — intro video included in project (check permission if from external source)
+- `Assets/Game assets/Videos/IntroVideo.mp4` — video intro nằm trong dự án (nếu lấy từ nguồn ngoài cần kiểm tra quyền sử dụng)
 
-## Next steps / Required actions
+## Các bước tiếp theo (cần làm)
 
-1. For each item above, open the original import package within Unity (or the Asset Store download) and locate the license/Attribution information.
-2. Add explicit license lines next to each asset in this file (e.g., `CC-BY 4.0`, `Royalty-free`, `Paid - included with license`), and if attribution is required add the author and link.
-3. If any asset was created by you, mark it as `Created by: Phùng Võ Quốc Hiển (Lacia)`.
+1.  Với mỗi mục trong danh sách, mở gói import gốc trong Unity (hoặc kiểm tra trang tải Asset Store/nguồn tải) và xác định thông tin license/attribution.
+2.  Ghi rõ license bên cạnh từng asset trong tệp này (ví dụ: `CC-BY 4.0`, `Royalty-free`, `Paid (đã mua kèm license)`), và nếu cần attribution hãy ghi tác giả + link nguồn.
+3.  Nếu tài nguyên do bạn tự tạo, đánh dấu rõ: `Created by: Phùng Võ Quốc Hiển (Lacia)`.
 
-If you want, I can try to automatically search the repository for package metadata or `package.json`/`manifest.json` entries to help identify likely sources for each asset.
+Nếu bạn muốn, mình có thể tự động tìm trong repository các tệp metadata (ví dụ `manifest.json`, `package.json`) để hỗ trợ xác định nguồn tài nguyên.
