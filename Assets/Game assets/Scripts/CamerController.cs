@@ -33,5 +33,4 @@ public class CamerController : MonoBehaviour
     {
 
     }
-    // NOTE: commit helper - Camera controller fine
 }
