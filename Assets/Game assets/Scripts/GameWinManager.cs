@@ -15,6 +15,7 @@ public class GameWinManager : MonoBehaviour
     {
         CurrentLevel();
         AllScenes();
+        Debug.Log("GameWinManager start (commit helper)");
     }
 
     public void Restart()
