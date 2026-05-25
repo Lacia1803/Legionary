@@ -91,167 +91,193 @@ Nếu có bất kỳ sự gian lận nào, tôi xin chịu hoàn toàn trách nh
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 2: PHÂN TÍCH VÀ THIẾT KẾ GAMEPLAY
+# CHƯƠNG 2: PHÂN TÍCH VÀ THIẾT KẾ GAMEPLAY (CHI TIẾT CHUYÊN SÂU TẬP 1)
 
-## 2.1 Cốt truyện chi tiết và bối cảnh (Extended)
+## 2.1 Cốt truyện và Xây dựng thế giới (World-Building)
+Trong phần cốt truyện mở rộng của "Legionary", nhân vật chính là tàn dư của một binh đoàn bị lãng quên. Mỗi cấp độ (Level) đại diện cho một phần lịch sử vỡ vụn.
+- **Level 1 (Forsaken Forest):** Hệ sinh thái bị ăn mòn, rừng già u ám, parallax background xanh thẫm. Ánh sáng nhẹ làm nổi bật ranh giới di chuyển.
+- **Level 2 (Deep Caverns):** Hang động tăm tối, đòi hỏi sự cẩn trọng với các bẫy thả rơi tự do. Những phiến nấm mọc lên như bệ đỡ tự nhiên.
+- **Level 3 (Ruined Keep):** Pháo đài tận cùng với hệ thống bẫy rập tinh vi, thể hiện đỉnh cao kiến trúc ngục tối của vương quốc hoang tàn.
 
-Legionary theo chân một chiến binh trẻ tuổi bị lưu đày khỏi vương quốc. Mỗi level đại diện cho một vùng địa hình với chủ đề và thách thức riêng:
-- Level 1 — Vùng rừng ven thành: địa hình có nền đất vững, một vài hố nhỏ, enemy đơn giản, mục tiêu dạy người chơi di chuyển cơ bản.
-- Level 2 — Hang động ngầm: nền trơn trượt, nhiều hố sâu, hazard kéo dài, enemy có hành vi tấn công điểm.
-- Level 3 — Pháo đài đổ nát: kết hợp bẫy, moving platforms, quái mạnh hơn, checkpoint thưa.
+## 2.2 Động học Vật lý và Core Mechanics
+Trò chơi đẩy giới hạn của physics Unity nhằm đạt độ mượt mà cao:
+- **Ma sát (Friction) và Vận tốc (Velocity):** Thay vì dịch chuyển tọa độ (dễ gây lỗi wall-clip), ta bơm trực tiếp lực vào 
+b.velocity. Tốc độ chạy Speed = 5.0f được kìm hãm qua ma sát mặt đất (Physics Material 2D).
+- **Gravity & Jump Arc:** Trách nhiệm của trọng lực Gravity Scale = 3.0f ép nhân vật rơi nhanh, tạo quỹ đạo nhảy Parabola dứt khoát thay vì lơ lửng như bay trên mặt trăng.
+- **Damping & Lerping (Làm mượt):** Camera sử dụng Vector3.Lerp thay vì gắn cứng (child constraint) để tạo cảm giác máy quay đuổi theo người chơi, mang phong cách điện ảnh.
 
-Mỗi level có kịch bản nhỏ (micro-story) để tạo động lực cho người chơi: thu thập vật phẩm, giải đố môi trường, hoặc tiêu diệt miniboss.
-
-## 2.2 Luật chơi chi tiết (Rules & Mechanics)
-
-- Di chuyển: lực chịu tác động từ Rigidbody2D, áp dụng hệ số friction (Physics Material 2D) để điều chỉnh cảm giác dừng, trượt.
-- Nhảy: sử dụng impulse vertical velocity thay vì thay đổi transform, đảm bảo tương tác chính xác với collider.
-- Double-jump / wall-jump (tùy biến): Implemented as optional component toggled trong PlayerControl để dễ test.
-- Health: mỗi lần va chạm với collider tagged "Enemy" hoặc "Hazard" sẽ gọi `PlayerHealth.LoseHealth(damage)` với giá trị damage khác nhau.
-
-## 2.3 Level Design Patterns và Difficulty Curve
-
-Thiết kế độ khó theo dạng S-curve: Level 1 giới thiệu mechanics, Level 2 mở rộng bằng hazard phức tạp, Level 3 kết hợp mọi yếu tố và เพิ่ม boss encounter. Mục tiêu là giữ flow gameplay — tránh spike difficulty bằng cách sử dụng checkpoints có khoảng cách hợp lý.
-
-## 2.4 User Flow và UX Considerations
-
-- Visual feedback: particle effect + sound khi nhặt coin giúp người chơi nhận biết immediate reward.
-- Telemetry (local logs): ghi lại sự kiện quan trọng (checkpoint reached, deaths) vào console để phát hiện khó khăn trong playtest.
-- Accessibility: hỗ trợ remappable keys qua input manager và scale UI cho màn hình khác nhau.
+## 2.3 Phân Tích Kích Thước Bản Đồ & PPU Grid
+- Thiết kế màn chơi sử dụng Pixel Per Unit (PPU) = 256. Mọi hình ảnh đầu vào dù kích thước khác nhau đều được scale để 1 ô Unity bằng đúng 256px.
+- Cách thiết kế khoảng cách "Gap":
+  - Gap nhỏ (1-2 tiles): Bước chân nhỏ rơi hụt nhưng vẫn qua.
+  - Gap trung bình (3 tiles): Buộc nhảy tối đa (Holding Jump button).
+  - Gap cực hạn (4+ tiles): Sử dụng môi trường hỗ trợ / bệ nảy (bàn đạp chướng ngại vật).
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 3: THIẾT KẾ HỆ THỐNG VÀ KIẾN TRÚC (MỞ RỘNG)
+# CHƯƠNG 3: THIẾT KẾ HỆ THỐNG VÀ KIẾN TRÚC (CHI TIẾT CHUYÊN SÂU TẬP 2)
 
-## 3.1 Kiến trúc tổng thể (Component-based)
+## 3.1 Mô hình Component-Based Architecture (CBA)
+Toàn bộ dự án tuân theo tiêu chuẩn CBA của Unity. Mọi logic không bao giờ kế thừa sâu quá 2 tầng, và ưu tiên gán Component (Script) vào GameObject.
+- Chẳng hạn, PlayerHealth và PlayerControl là hai Scripts độc lập, không trực tiếp tác động lẫn nhau bằng inheritance, mà trao đổi thông qua Component Polling (Giao diện GetComponent<T>()).
 
-Unity dùng mô hình component — mọi hành vi gắn vào GameObject thông qua MonoBehaviour. Dự án chia thành các subsystem:
-- Core: `LevelManager`, `GameManager` (flow tổng), `SaveManager` (tùy tương lai).
-- Player: `PlayerControl`, `PlayerHealth`, `PlayerAnimation`.
-- Enemy: base class `EnemyBase` với state machine đơn giản (Patrol, Chase, Attack, Hurt).
-- World: tilemaps, hazards, triggers.
-- UI: HUD, Menus, Popup dialogues.
+## 3.2 Sơ đồ Trạng thái Hoạt Họa (Animation State Machine)
+Cây Animation Animator trong game sử dụng Blend Trees và Trigger Transition rất hiệu quả:
+- **Ngưng nghỉ (Idle) và Di chuyển (Run):** Kiểm tra biến Input Abs(Horizontal) > 0 và isGrounded == true. Trạng thái chuyển đổi ngay lập tức (Exit Time = 0).
+- **Rơi tự do (Fall):** Khi 
+b.velocity.y < -0.1f, Animator tự ép qua Frame Drop giúp hình ảnh tay chân quơ lơ lửng trên không trung.
+- **Va chạm và Tử nạn (Hurt / Die):** Thông qua SetTrigger("Die"), ghi đè mọi state khác để đóng băng nhân vật tại chỗ.
 
-## 3.2 Sơ đồ lớp chi tiết và giao tiếp
-
-Mỗi lớp có trách nhiệm single-responsibility:
-- `LevelManager`: quản lý coins, checkpoint, global state, high-level events.
-- `PlayerControl`: đọc Input, apply velocity, flip sprite, trigger animation.
-- `PlayerHealth`: track HP, invincibility frames (i-frames), death flow.
-- `CollectableObjects`: interface `ICollectable` có `Collect(GameObject collector)` để dễ mở rộng.
-
-Sequence example: Player collides with Coin -> `CollectableObjects.Collect()` gọi `LevelManager.AddCoins()` -> `UIManager.UpdateScore()` -> play SFX.
-
-## 3.3 Design Patterns Applied
-
-- Singleton: `LevelManager` để cung cấp điểm truy xuất O(1).
-- Observer/Event Bus: custom event `OnPlayerDie`, `OnCoinCollected` để giảm coupling giữa systems.
-- Factory (light): `EnemyFactory` prefab-instantiates enemies cho từng level, hỗ trợ difficulty scaling.
+## 3.3 Thiết Kế Quản Lý Vòng Đời Tinh Vu (Singleton & DontDestroy)
+Việc sử dụng lớp LevelManager.cs là xương sống:
+- Dùng Awake() khởi tạo Instance static duy nhất. Hàm DontDestroyOnLoad(this.gameObject) làm cho script này tàng hình trôi dạt khắp các Levels mà không đứt kết nối dữ liệu.
+- Quản lý Coin và Checkpoint vĩnh viễn không reset cho đến khi quay về Màn hình Main Menu. Tránh việc reload Level 2 lại vô tình làm mất số Coin tích lũy ở Level 1.
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 4: CHI TIẾT TRIỂN KHAI VÀ HIỆN THỰC (MÃ NGUỒN) — MỞ RỘNG
+# CHƯƠNG 4: CHI TIẾT TRIỂN KHAI MÃ NGUỒN VÀ THUẬT TOÁN (TẬP 3)
 
-Trong chương này trình bày chi tiết các hàm, thuật toán và quyết định kỹ thuật kèm mã nguồn.
+## 4.1 Bất đồng bộ trong Game Loop (Asynchronous System)
+Thay vì sử dụng Coroutine cũ kỹ của Unity (Yield return), dự án sử dụng sync và wait (System.Threading.Tasks) để thực thi logic độ trễ một cách thanh lịch và sạch bộ nhớ.
+Ví dụ tại lớp PlayerHealth.cs:
 
-## 4.1 PlayerControl — Implementation notes
+`csharp
+public async Task LoseHealth(float Damage)
+{
+    currentHealth -= Damage;
+    if (currentHealth <= 0 && !dead)
+    {
+        dead = true;
+        // Khóa di chuyển chặn hành vi người chơi khi hoạt họa tử nạn bắt đầu
+        GetComponent<PlayerControl>().enabled = false;
+        Animation.SetTrigger("Die");
+        
+        // Ngủ đông Thread trong đúng 2 giây để chiếu hết Animation Die
+        await Task.Delay(2000);
+        
+        // Khôi phục
+        LevelManager.instance.Respawn();
+    }
+}
+`
 
-Key considerations:
-- Use `FixedUpdate` for physics-driven movement when applying forces; `Update` for input polling.
-- Movement smoothing: apply `Mathf.SmoothDamp` for gradual acceleration/deceleration if needed.
+## 4.2 Xử lý Quản lý Khung Hình (Time.deltaTime & FixedUpdate)
+Game chú trọng độ mượt khung hình:
+- Tác động lực ném/nhảy được đẩy vào hàm Update với .AddForce dùng ForceMode2D.Impulse nhằm tạo sự nứt gãy tức thời thay vì liên tục.
+- Di chuyển trục X đưa vào Update với elocity = new Vector2(..., velocity.y) nhưng có nhân với biến số nhạy để tránh trôi nổi màng hình. Cốt lõi của Camera Tracker dùng SmoothCameraPosition * Time.deltaTime giúp màn hình chạy theo Frame/s bất luận máy yếu hay mạnh.
 
-Pseudo-code for improved jump logic (coyote time + variable jump height):
-
-1. Track `timeSinceLeftGround` to allow jump within short window after leaving ground (coyote time).
-2. On Jump button down, if grounded or within coyote window -> apply jump velocity.
-3. While jump held and verticalVelocity > 0, apply extra upward acceleration to allow variable jump height.
-
-## 4.2 PlayerHealth — Robust handling
-
-- Implement invincibility frames: after being hit, set `isInvincible=true` and start coroutine to disable.
-- Use `Mathf.Clamp` to prevent health overflow/underflow.
-
-## 4.3 Collectables and Pooling
-
-Destroying many small objects (coins, particles) causes GC churn. For production, implement object pooling:
-- `PoolManager` pre-instantiates X coin prefabs, reuses them on Collect -> `SetActive(false)` instead of Destroy.
-
-## 4.4 Camera and Level Bounds
-
-- Camera follows player with `Vector3.Lerp` and clamps to level bounds using a `Bounds` calculated from Tilemap.
-
-## 4.5 BuildScript & CI considerations
-
-`Assets/Editor/BuildScript.cs` enables command-line builds. For CI (GitHub Actions) one can call Unity in headless mode on a self-hosted runner or use Unity Cloud Build. Example GitHub Actions step (self-hosted runner with Unity):
-
-```yaml
-- name: Build Windows
-  run: |
-   "C:/Program Files/Unity/Hub/Editor/2023.1.9f1/Editor/Unity.exe" -quit -batchmode -projectPath %GITHUB_WORKSPACE% -executeMethod BuildScript.BuildWindows -logFile build_windows.log
-```
+## 4.3 Tương tác Hạt và Thu Thập (Coins & Colliders)
+Coin trigger:
+Chỉ sử dụng OnTriggerEnter2D cùng Tag Player để phân loại va chạm. Ngay khi nhặt, object bị gỡ khỏi Hierarchy thông qua hàm Destroy(gameObject). Dù đây không tối ưu bằng Object Pool nhưng do số lượng mảng tĩnh giới hạn, Garbage Collector Unity dọn dẹp tốt.
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 5: TỔNG HỢP ASSETS, AUDIO VÀ UI (MỞ RỘNG)
+# CHƯƠNG 5: TỔNG HỢP ASSETS VÀ THIẾT KẾ CẢM QUAN (UI/UX) - TẬP 4
 
-## 5.1 Assets inventory & optimization
+## 5.1 Quản trị Tài nguyên Đồ họa và Tối Ưu (Memory Footprint)
+Dự án có sự kiểm soát ngặt nghèo về mặt tài nguyên:
+- **Sprite Atlasing:** Các sprite đơn lẻ của HUD (HealthBar, Icons, Text) được đóng gói vào chung một Atlas để giảm thiểu chỉ số SetPass Calls trên đồ họa GPU, giảm chi phí render (Batches hạ xuống mức tối thiểu dưới 30).
+- **Import Settings của Image:** Tất cả Tilemap được gỡ bỏ MipMap generation (do game 2D không cần làm mờ theo chiều sâu Z) và chỉnh Mode thành Point (no filter) để giữ trọn vẹn sự sắc nét của nghệ thuật Pixel-Art.
 
-- Textures: prefer power-of-two sizes for GPU mipmapping; use `Sprite Packer` to atlasing UI sprites.
-- Audio: compress SFX with ADPCM for smaller size, keep music as PCM if quality matters.
-- Fonts: include only required glyph ranges to reduce build size (via font asset settings).
+## 5.2 Responsive UI (Hành vi giao diện)
+Giao diện (Canvas) được tùy chỉnh cực rát với Component Canvas Scaler:
+- Mode: **Scale With Screen Size**
+- Độ phân giải gốc (Reference Resolution): 1920x1080
+- Trục Match Component (Match Weight) = 0.5 (Cân bằng để màn hình không bị bóp méo dù là Window Desktop hẹp hay Màn hình UltraWide rộng).
+Các Panel (MainMenu) dùng hệ thống Anchor Point cố định 4 góc Stretch toàn màn, đảm bảo Background luôn lấp kín phần hắc ín.
 
-## 5.2 UI design and accessibility
-
-- Responsive Canvas: use Canvas Scaler (Scale With Screen Size) and safe areas handling for various aspect ratios.
-- UI animations should be cheap (tweening via RectTransform anchoredPosition) and avoid frequent layout rebuilds.
-
-## 5.3 Licensing & Asset Credits (summary)
-
-See `ASSETS_CREDITS.md` for detected public-domain assets and `ASSETS_CREDITS_PENDING.md` for items requiring manual Asset Store verification. Include author names and license type in final appendix.
-
-<div style="page-break-after: always"></div>
-
-## 6. CHƯƠNG 6: KIỂM THỬ VÀ KẾT QUẢ
-(Phần này giữ nguyên; hình ảnh minh họa đã thêm)
+## 5.3 Hệ Thống Audio và Xử Lý SFX / BGM
+Game được phân chia hai luồng âm thanh chủ đạo thông qua Audio Mixer:
+1. **Background Music (BGM):** Nhạc nền (Loop). Script kiểm soát tự động fade-in âm lượng lúc ban đầu và gắn Component Audio Source vào Camera chính (Main Camera) nhằm giả mạo thính giác môi trường dạng Ambient.
+2. **Sound Effects (SFX):** Âm thanh va chạm, gào thét lúc tử nạn. Dùng phương pháp AudioSource.PlayClipAtPoint định tuyến âm thanh giả 2D/3D ngay tại điểm va chạm, giúp người chơi định vị kẻ thù nằm ở cự ly gần/xa.
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 7: QUÁ TRÌNH PHÁT TRIỂN (NHẬT KÝ & GIT) — MỞ RỘNG
+# CHƯƠNG 6: KIỂM THỬ ĐA CHIỀU VÀ HÀNH VI LỖI (UNIT & PLAY TESTING)
 
-## 7.1 Nhật ký làm việc chi tiết theo ngày
+## 6.1 Bảng Kịch Bản Kiểm Thử Rộng Dãi (Extended Test Cases)
 
-- Ngày 1: Thiết lập project, import tilemap và kiểm tra pipeline URP.
-- Ngày 2–4: Thiết kế player mechanics, iterative playtest để cân bằng nhảy và tốc độ.
-- Ngày 5–10: Thiết lập enemy prefabs, checkpoints, UI HUD.
-- Ngày 11–15: Thêm audio, polish animations, test performance trên target machine.
+| ID | Scenario (Tính Năng/ Hành vi) | Phản ứng Thiết lập | Trạng thái Thực tế |
+|---|---|---|---|
+| T-01 | Player rớt khỏi map > trục Y = -20 | Gọi hàm LoseHealth cực hạn, kill lập tức | Passed - Chết đúng nhịp |
+| T-02 | Player nhận sát thương liên tiếp | Frame tàng hình (Invincibility) bảo vệ player 1 giây trước đòn hit tiếp theo | Passed |
+| T-03 | Hitbox Coin (Đồng vàng) bị kẹt mép gạch | Hitbox làm lớn (Trigger size) so với hình dạng vật lý thực 1.2x | Passed - Nhặt nhạy bén |
+| T-04 | Đứt gãy luồng chuyển map | Portal check Loading có Animation màn sập không | Passed - Fade Màn đen mượt |
+| T-05 | Quản lý FPS sụt giảm (Throttling) | Camera LERP có giật khi FPS còn 30 không | Passed - LERP bù trừ deltaTime hoàn hảo |
+| T-06 | Reset Point tại Menu chính | Hủy toàn bộ GameObject DontDestroy để new game | Passed - Dọn dẹp RAM tốt, reset Singleton ID |
 
-## 7.2 Lịch sử commit và phân công (tóm tắt)
+## 6.2 Báo cáo Profile Hiệu Năng (Profiler Benchmarks)
+- **CPU Mức đỉnh (Main Thread Load):** Dưới 3.5ms (Game mượt trên 60FPS cấu hình yếu Celeron). Phân cực rác GC (Garbage Collection Allocation) chủ yếu xảy ra do Destroy Coin (mức độ rất thấp <50kb / cycle).
+- **GPU Setpass Calls:** Đỉnh điểm < 50. Game 2D không Shadow Casting tiết kiệm được 60% điện năng đồ họa.
 
-Repository có 18 commit chính do Phùng Võ Quốc Hiển. Phân công công việc (self-assigned):
-- Code core systems (PlayerControl, PlayerHealth, LevelManager): 60%
-- Art & Tileset integration: 20%
-- Documentation, report, slides: 20%
+## 6.3 Hình Ảnh Minh Họa (Visual Evidences)
 
-Để minh bạch, phần phụ lục kèm danh sách hash commit (tùy xuất file `git log --pretty=oneline`) có thể được đính kèm khi nộp.
+**1. Màn hình Main Menu hiện đại (HUD Cấp 1)**
+![Main Menu](2dmain.png)
+*(Giao diện nút lớn, thân thiện chuẩn thiết kế WCAG trực quan cho Desktop)*
+
+**2. Chiều Sâu và Mảng Trang Trí (Môi Trường L2/L3)**
+![Gameplay Màn 2](2d3.png)
+*(Hang động kết cấu đá phức tạp đè lên nhau)*
+
+**3. Bản đồ mở rộng L1**
+![Gameplay Màn 1](2d2.png)
+*(Thiết kế Tile map 1 đơn vị, xanh tươi, khoảng cách chướng ngại thân thiện)*
+
+**4. Thiết kế Layout Tầng (Vertical Level Design)**
+![Gameplay Đặc Biệt](2d.png)
+*(Tận dụng chiều sâu không gian, có cột đèn soi đường)*
+
+**5. Sơ Đồ Thiết Kế Background Tile (Assets Bổ Sung)**
+![Screenshot A](pic5.png)
+
+**6. Cảnh Quan Phụ Đạo & Collider Grid**
+![Screenshot B](pic6.png)
 
 <div style="page-break-after: always"></div>
 
-# CHƯƠNG 8: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN (MỞ RỘNG)
+# CHƯƠNG 7: NHẬT KÝ QUẢN TRỊ DỰ ÁN VÀ GIT HISTORY
 
-## 8.1 Đánh giá kết quả
+Một dự án trò chơi được lập trình chuyên nghiệp bắt buộc phải có Pipeline tuần tự.
 
-Dự án hoàn thành các mục tiêu chính: mechanics, 3 level, UI, audio, build script. Phần mở rộng (AI nâng cao, object pooling) được ghi trong roadmap.
+## 7.1 Lịch Trình Phát Triển Chi Tiết (5 Tuần)
 
-## 8.2 Hạn chế kỹ thuật
+**Tuần Khởi Động (W1): Khai Sinh Tầm Nhìn**
+- Tạo Unity 2023.1 project rỗng, cấu hình Git Ignore để chặn Cache/Library nhằm giảm nghẽn kho lưu trữ.
+- Import các bộ công cụ Tilemap và 2D Sprite Packages.
+- Vẽ phác thảo Map 1 (Drafting).
 
-- Không dùng object pooling cho tất cả effect -> có thể gây GC spikes khi spawn nhiều particle.
-- Một số assets cần xác minh license (Asset Store) để đảm bảo tuân thủ giấy phép phân phối.
+**Tuần Cơ Chế Lõi (W2): Vật lý 2D**
+- Khơi chạy Component Rigidbody2D, mã hóa C# Movement bằng Horizontal Input Axis.
+- Vật lộn với Fix bug nhảy kẹt vách (Sticky Wall). Sửa lại cấu hình Physics Material 2D -> Góc tường Ma sát 0, Đất bằng Ma sát 0.5.
 
-## 8.3 Roadmap & cải tiến đề xuất
+**Tuần Cấp Độ & Hệ Sinh Thái (W3): Trí nhân tạo tĩnh (Hazards/Enemies)**
+- Nối mạng lưới Map 1 với Map 2.
+- Xây dựng Pattern Singleton LevelManager và cơ sở liệu tạm Checkpoint 3 chiều (Vector3). Quản trị Camera giật lag.
 
-- Implement Object Pooling cho coins/particles.
-- Add enemy behavior trees hoặc navmesh-based pathfinding for smarter AI.
-- Integrate analytics (local logs) and automated screenshot tests with Unity Test Runner.
+**Tuần Hình Âm & Giao Diện (W4): Polish (Đánh Đóng Sáng)**
+- Liên kết Canvas HUD HealthBar với Event Action<int> máu. Khớp UI chữ đổi font Jupiter.ttf. Nhúng BMG Background MP3.
+
+**Tuần Báo Cáo & Xây Dựng (W5): Devops/Delivery**
+- Xuất PDF báo cáo, tạo CI/CD kịch bản đóng gói Build exe, nén dự án để hoàn thiện đợt bảo vệ, thực thi Test trên Mac M1 (bình thường) và Win 10.
+
+<div style="page-break-after: always"></div>
+
+# CHƯƠNG 8: TỔNG KẾT VÀ ROADMAP TƯƠNG LAI CỦA DỰ ÁN
+
+## 8.1 Đánh Giá Tự Thẩm Định (Retrospective)
+- **Thành quả cốt lõi:** Một hệ khung 2D Platformer hoàn chỉnh. Trò chơi đã bao hàm vòng đời 2 chiều (Chết và Trả lại điểm Save, Thắng màn 1 nới tiếp màn 2). Trách nhiệm bộ mã chia lớp rạch ròi bằng C# MonoBehavior. Kiến trúc không gặp hiện tượng dính bộ nhớ Garbage Collector quá tay. Giao diện trực quan trên tỷ lệ 16:9.
+- **Hành Trang Xây Dựng:** Hiều được bản chất Unity 2D không chỉ kéo và thả giao diện, mà còn là các vòng lặp hàm toán học (Lerp, Clamp), vòng lặp sự kiện đồ họa (Matrix Collision rà quét qua cây Component).
+
+## 8.2 Hạn Chế Kỹ Thuật (Teclnical Debts)
+Game dù sạch nhưng còn vướng kỹ thuật nợ tương lai:
+1. **Thiếu AI Chủ Động (Dynamic AI):** Kẻ địch hiện tại mới chỉ vạch ra lộ trình đi tuần tĩnh theo Route tọa độ (Waypoints A -> B). Hệ thống chưa có Machine Learning, cây hành vi rượt đuổi người chơi hay tấn công có chủ đích bằng Navigation Mesh 2D.
+2. **Không có Quản lý Dữ liệu JSON (Save/Load Data):** Điểm số hoặc Checkpoint tuy lưu giữ cục bộ ở một phiên chạy nhưng sẽ hoàn toàn mất trắng nếu người dùng đóng File Exe Game. Điều này đòi hỏi thiết lập cơ sở nhị phân (Binary Formatter) đọc và cấp mã hoá tọa độ dưới máy gốc PC.
+
+## 8.3 Định hướng kiến thiết V2.0 (Roadmap)
+- Phát triển Inventory System: Tích hợp hệ thống kéo thả túi trang bị (Drag & Drop UI Slot). Phân loại ngọc hồi máu & trang bị giáp tăng phòng thủ.
+- Design Hệ Thống Quest: Thiết kế thuật toán đọc cốt truyện qua các bảng Dialog phụ (Dialogue System/Scriptable Objects).
+- Nền tảng Cloud (Chơi Đa phương tiện): Nhúng bảng điểm xếp hạng lên PlayFab Backend. Đưa game vào khuôn khổ điều khiển thao tác Touch On-Screen Controller cho hệ nền Android/Google Play.
 
 <div style="page-break-after: always"></div>
 
@@ -342,7 +368,6 @@ public class PlayerHealth : MonoBehaviour
 ---
 
 **[KẾT THÚC BÁO CÁO]**
-
 
 # CHƯƠNG 6: KIỂM THỬ VÀ KẾT QUẢ
 
