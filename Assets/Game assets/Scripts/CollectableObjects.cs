@@ -13,7 +13,7 @@ public class CollectableObjects : MonoBehaviour
         GameLevelManager = LevelManager.instance;      
     }
 
-    // NOTE: commit helper - CollectableObjects verified
+    
 
     void OnTriggerEnter2D(Collider2D other)
     {
