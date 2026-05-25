@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
+  <style>
+    .box { fill: #f7fafc; stroke: #2b6cb0; stroke-width:2; }
+    .title { font: bold 14px sans-serif; fill: #1a202c; }
+    .text { font: 12px monospace; fill: #2d3748; }
+    .arrow { stroke: #2d3748; stroke-width:2; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2d3748" />
+    </marker>
+  </defs>
+
+  <!-- LevelManager box -->
+  <rect class="box" x="40" y="30" width="260" height="120" rx="8" ry="8"/>
+  <text class="title" x="60" y="55">LevelManager</text>
+  <text class="text" x="60" y="80">+ static instance</text>
+  <text class="text" x="60" y="100">+ int Coins</text>
+  <text class="text" x="60" y="120">+ Respawn()</text>
+
+  <!-- PlayerControl box -->
+  <rect class="box" x="420" y="20" width="240" height="120" rx="8" ry="8"/>
+  <text class="title" x="440" y="45">PlayerControl</text>
+  <text class="text" x="440" y="70">+ float PlayerSpeed</text>
+  <text class="text" x="440" y="90">+ Vector3 PlayerRespawn</text>
+  <text class="text" x="440" y="110">+ PlayerWalk(), PlayerJump()</text>
+
+  <!-- PlayerHealth box -->
+  <rect class="box" x="420" y="170" width="240" height="90" rx="8" ry="8"/>
+  <text class="title" x="440" y="195">PlayerHealth</text>
+  <text class="text" x="440" y="220">+ float currentHealth</text>
+  <text class="text" x="440" y="240">+ LoseHealth(float)</text>
+
+  <!-- CollectableObjects box -->
+  <rect class="box" x="820" y="50" width="220" height="70" rx="8" ry="8"/>
+  <text class="title" x="840" y="75">CollectableObjects</text>
+  <text class="text" x="840" y="95">+ coinValue</text>
+
+  <!-- GameWinManager box -->
+  <rect class="box" x="820" y="180" width="220" height="80" rx="8" ry="8"/>
+  <text class="title" x="840" y="205">GameWinManager</text>
+  <text class="text" x="840" y="225">+ SetWinScreen()</text>
+
+  <!-- Arrows -->
+  <!-- LevelManager -> PlayerControl (uses) -->
+  <line class="arrow" x1="300" y1="80" x2="420" y2="80" />
+  <text class="text" x="330" y="70">uses</text>
+
+  <!-- LevelManager -> PlayerHealth (uses) -->
+  <line class="arrow" x1="300" y1="200" x2="420" y2="215" />
+  <text class="text" x="330" y="190">uses</text>
+
+  <!-- PlayerControl -> PlayerHealth (has) -->
+  <line class="arrow" x1="560" y1="140" x2="560" y2="170" />
+  <text class="text" x="570" y="155">has</text>
+
+  <!-- CollectableObjects -> LevelManager (AddCoins) -->
+  <line class="arrow" x1="820" y1="85" x2="680" y2="85" />
+  <text class="text" x="760" y="75">AddCoins()</text>
+
+  <!-- GameWinManager -> SceneManager (LoadScene) -->
+  <line class="arrow" x1="930" y1="260" x2="600" y2="260" />
+  <text class="text" x="760" y="250">LoadScene()</text>
+
+  <!-- Footer note -->
+  <text class="text" x="40" y="360">Auto-generated diagram (simplified) — dùng để chèn vào báo cáo. Nếu muốn PNG, dùng Inkscape hoặc ImageMagick để chuyển từ SVG.</text>
+</svg>
