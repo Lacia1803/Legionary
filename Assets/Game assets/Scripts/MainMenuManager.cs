@@ -39,6 +39,7 @@ public class MainMenuManager : MonoBehaviour
                 vp.loopPointReached += EndReached;
             }
         }
+        // NOTE: commit helper - MainMenuManager start hooked
     }
 
     void EndReached(UnityEngine.Video.VideoPlayer vp)
