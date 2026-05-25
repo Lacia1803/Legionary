@@ -19,7 +19,6 @@ public class PlayerHealth : MonoBehaviour
     {
         PlayerRespawn = transform.position;
         GameLevelManager = LevelManager.instance;
-        // TODO(commit-helper): validate health init during playtests
     }
 
     private void Awake()
