@@ -90,5 +90,6 @@ public class PlayerControl : MonoBehaviour
         {
             PlayerRespawn = other.transform.position;
         }
+        // NOTE: Commit helper - added small comment for git history (non-functional)
     }
 }
